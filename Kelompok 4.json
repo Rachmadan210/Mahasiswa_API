@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Data Mahasiswa API",
+      "description": "API untuk mengelola data mahasiswa",
+      "version": "1.0.0",
+      "contact": {
+        "name": "Kelompok 4",
+        "email": "allan.22052@mhs.unesa.ac.id",
+        "url": "http://localhost/api/index.php"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost/api/",
+        "description": "Development server",
+        "variables": {
+          "environment": {
+            "default": "dev",
+            "description": "sfafsfa",
+            "enum": ["development", "staging", "production"]
+          }
+        }
+      }
+    ],
+    "paths": {
+      "/mahasiswa": {
+        "get": {
+          "summary": "Mendapatkan daftar mahasiswa",
+          "description": "Menampilkan daftar data mahasiswa yang tersedia",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Mahasiswa"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Menambahkan mahasiswa baru",
+          "description": "Menambahkan data mahasiswa baru ke dalam sistem",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MahasiswaInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Mahasiswa ditambahkan"
+            }
+          }
+        },
+        "put": {
+          "summary": "Memperbarui mahasiswa",
+          "description": "Memperbarui data mahasiswa yang ada berdasarkan ID",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID dari mahasiswa yang akan diperbarui",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MahasiswaInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Mahasiswa diperbarui"
+            },
+            "404": {
+              "description": "Mahasiswa tidak ditemukan"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Menghapus mahasiswa",
+          "description": "Menghapus data mahasiswa yang ada berdasarkan ID",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID dari mahasiswa yang akan dihapus",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Mahasiswa dihapus"
+            },
+            "404": {
+              "description": "Mahasiswa tidak ditemukan"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Mahasiswa": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "ID mahasiswa"
+            },
+            "nama": {
+              "type": "string",
+              "description": "Nama mahasiswa"
+            },
+            "nim": {
+              "type": "string",
+              "description": "NIM mahasiswa"
+            },
+            "jurusan": {
+              "type": "string",
+              "description": "Jurusan mahasiswa"
+            }
+          },
+          "example": {
+            "id": 1,
+            "nama": "Doni",
+            "nim": "123456789",
+            "jurusan": "Teknik Informatika"
+          }
+        },
+        "MahasiswaInput": {
+          "type": "object",
+          "properties": {
+            "nama": {
+              "type": "string",
+              "description": "Nama mahasiswa",
+              "example": "Doni"
+            },
+            "nim": {
+              "type": "string",
+              "description": "NIM mahasiswa",
+              "example": "123456789"
+            },
+            "jurusan": {
+              "type": "string",
+              "description": "Jurusan mahasiswa",
+              "example": "Teknik Informatika"
+            }
+          },
+          "required": ["nama", "nim", "jurusan"]
+        }
+      },
+      "securitySchemes": {
+        "ApiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization"
+        }
+      }
+    }
+  }
+  
